@@ -41,5 +41,5 @@ jobs:
           url: ${{ secrets.JENKINS_URL }}
           user: "cloud"
           token: ${{ secrets.JENKINS_TOKEN }}
-          job: "ACEest-CI_CD_pipeline2"
+          job: "ACEest-CI_CD_pipeline112"
           wait: true
