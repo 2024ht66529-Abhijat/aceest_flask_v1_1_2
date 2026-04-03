@@ -1,0 +1,45 @@
+name: ACEest CI 1.1.2
+on:
+  push:
+    branches: ["main"]
+  
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment to deploy'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      run-tests:
+        description: 'Run tests before deployment?'
+        required: false
+        default: 'true'
+        type: boolean
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - run: pip install -r requirements.txt
+    - run: pytest
+    - run: docker build -t aceest-fitness:1.1.2 .
+
+    trigger-jenkins:
+    runs-on: self-hosted
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Trigger Jenkins Job
+        uses: appleboy/jenkins-action@v1
+        with:
+          url: ${{ secrets.JENKINS_URL }}
+          user: "cloud"
+          token: ${{ secrets.JENKINS_TOKEN }}
+          job: "ACEest-CI_CD_pipeline2"
+          wait: true

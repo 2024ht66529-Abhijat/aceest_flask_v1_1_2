@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ACEest Fitness v1.1.2</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+<h1>ACEest Fitness & Performance</h1>
+<form method="post">
+<select name="program">
+{% for p in programs %}
+<option value="{{p}}">{{p}}</option>
+{% endfor %}
+</select>
+<button type="submit">View Program</button>
+</form>
+{% if selected %}
+<div class="card">{{selected}}</div>
+{% endif %}
+</div>
+</body>
+</html>
